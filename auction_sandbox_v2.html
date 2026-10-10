@@ -1,0 +1,356 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Песочница аукциона · EUR/USD</title>
+<style>
+:root{--bg:#0b0f14;--p:#121922;--p2:#0e141b;--ln:#223040;--tx:#d6e0ea;--mu:#7d8fa3;--up:#26c281;--dn:#ef5350;--ac:#3aa0ff;--wr:#f5b83d;--hl:rgba(58,160,255,.16);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e9eef3;--p:#fff;--p2:#f6f8fa;--ln:#cfd8e1;--tx:#1b2733;--mu:#5d6d7d;--up:#12915e;--dn:#d63a37;--ac:#1a73d9;--wr:#b97900;--hl:rgba(26,115,217,.12)}}
+:root[data-theme="dark"]{--bg:#0b0f14;--p:#121922;--p2:#0e141b;--ln:#223040;--tx:#d6e0ea;--mu:#7d8fa3}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--tx);font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+#app{display:grid;grid-template-rows:auto 1fr;height:100%}
+header{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding:6px 10px;background:var(--p);border-bottom:1px solid var(--ln)}
+header .k{color:var(--mu);font-size:10px;display:block}header .v{font-size:14px;font-weight:700}
+header .mid{font-size:19px;letter-spacing:.3px}
+#htop{font-size:10px;color:var(--wr);display:block;min-height:12px}
+.sp1{flex:1}
+button{font:inherit;color:var(--tx);background:var(--p2);border:1px solid var(--ln);border-radius:4px;padding:4px 8px;cursor:pointer}
+button:hover{border-color:var(--mu)}button.on{border-color:var(--ac);color:var(--ac);background:var(--hl)}
+button:disabled{opacity:.5;cursor:default}
+main{display:grid;grid-template-columns:minmax(0,1fr) 232px 330px;grid-template-rows:minmax(0,1fr) 236px;gap:1px;background:var(--ln);min-height:0}
+.pn{background:var(--p2);min-height:0;overflow:auto;display:flex;flex-direction:column}
+.th{display:flex;gap:4px;padding:4px 6px;background:var(--p);border-bottom:1px solid var(--ln);align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:2}
+.th h4{margin:0 6px 0 2px;font-size:11px;color:var(--mu);font-weight:600}
+#chart{grid-column:1;grid-row:1}#book{grid-column:2;grid-row:1}#tkt{grid-column:3;grid-row:1/3}#bot{grid-column:1/3;grid-row:2}
+#cw{flex:1;position:relative;min-height:0;touch-action:none;cursor:crosshair}#cv{position:absolute;inset:0;width:100%;height:100%}
+.r{position:relative;display:grid;grid-template-columns:1fr 1fr 40px 28px;padding:1px 8px;cursor:pointer;user-select:none}
+.r:hover{background:var(--hl)}.r.me{background:var(--hl);outline:1px solid var(--ac);outline-offset:-1px}
+.r i{position:absolute;right:0;top:0;bottom:0;opacity:.22}.r.a i{background:var(--dn)}.r.b i{background:var(--up)}
+.r b,.r span,.r em,.r u{position:relative;font-weight:500;font-style:normal}.r.a b{color:var(--dn)}.r.b b{color:var(--up)}.r span{text-align:right}.r em{text-align:right;color:var(--ac)}.r u{text-decoration:none;color:var(--mu);text-align:right}
+.rh{display:grid;grid-template-columns:1fr 1fr 40px 28px;padding:2px 8px;color:var(--mu);font-size:10px;border-bottom:1px solid var(--ln)}.rh span:not(:first-child){text-align:right}
+.spr{padding:4px 8px;background:var(--p);border-block:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center}
+.spr .m{font-size:14px;font-weight:700;color:var(--ac)}.spr .s{color:var(--wr);font-size:11px}
+#tkt{padding:8px;gap:7px}#tkt>*{flex-shrink:0}
+.sec{border:1px solid var(--ln);border-radius:6px;padding:7px;display:flex;flex-direction:column;gap:6px;background:var(--p)}.sh{display:flex;justify-content:space-between;align-items:baseline;gap:6px}.sh b{font-size:12px}.lrow{display:flex;gap:4px}.lrow input{flex:1;min-width:0}.lrow button{padding:4px 8px}.lt{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-bottom:3px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:5px}.mini div{background:var(--p2);border:1px solid var(--ln);border-radius:4px;padding:3px 5px;line-height:1.25}.mini small{display:block;color:var(--mu);font-size:9.5px}.mini span{font-weight:700}
+#tkt label{color:var(--mu);font-size:10.5px;display:block;margin-bottom:2px}
+input[type=number]{font:inherit;width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:4px;padding:6px}
+input[type=checkbox]{width:auto;accent-color:var(--ac);margin:0 6px 0 0;vertical-align:-2px}
+.chk{display:flex!important;align-items:flex-start;color:var(--tx)!important;font-size:11.5px!important;cursor:pointer;line-height:1.3}
+.chips{display:flex;gap:4px;flex-wrap:wrap}.chips button{flex:1;padding:4px 2px;min-width:34px}
+.big{padding:10px;font-weight:700;color:#fff!important;border:0!important}.buy{background:var(--up)}.sell{background:var(--dn)}
+.big:hover{filter:brightness(1.12)}
+.two{display:flex;gap:6px}.two>*{flex:1}
+.card{border:1px solid var(--ln);border-radius:6px;background:var(--p);padding:7px 8px}
+.kv{display:flex;justify-content:space-between;padding:1px 0;gap:8px}.kv span:first-child{color:var(--mu)}
+.pos{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}.pos b{font-size:16px}
+.seg{display:flex;border:1px solid var(--ln);border-radius:5px;overflow:hidden}.seg button{flex:1;border:0;border-radius:0;padding:7px 4px;background:var(--p2);font-weight:700}
+.seg button.on{background:var(--ac);color:#fff;border:0}
+.seg.sm button{padding:4px;font-weight:500}
+.explain{color:var(--mu);font-size:11px;line-height:1.35;border-left:2px solid var(--ac);padding:1px 0 1px 7px}
+.lh{padding:5px 7px;border:1px solid var(--ln);border-radius:5px;background:var(--p);font-size:11px;line-height:1.4}
+.lh+.lh{margin-top:4px}.lh.bad{border-color:var(--dn)}.lh.warn{border-color:var(--wr)}
+#notes{display:flex;flex-direction:column;gap:3px;font-size:11px;height:124px;overflow:auto;padding-right:2px}
+#notes div{padding:4px 6px;border-radius:4px;background:var(--p);border-left:3px solid var(--mu);line-height:1.35}
+#notes .ok{border-left-color:var(--up)}#notes .w{border-left-color:var(--wr)}#notes .f{border-left-color:var(--ac)}
+#notes small{color:var(--mu)}
+#bc{flex:1;overflow:auto;padding:4px 8px}
+table{border-collapse:collapse;width:100%}td,th{padding:2px 6px;text-align:right;border-bottom:1px solid var(--ln);white-space:nowrap}th{color:var(--mu);font-weight:400}td:first-child,th:first-child{text-align:left}
+td button{padding:1px 6px;margin-left:3px}
+.up{color:var(--up)}.dn{color:var(--dn)}.mu{color:var(--mu)}.wr{color:var(--wr)}
+.guide{max-width:880px;line-height:1.55;font-size:12.5px;font-family:system-ui,sans-serif}.guide h3{margin:10px 0 2px;color:var(--ac)}.guide p{margin:2px 0}
+#ov{position:fixed;inset:0;background:rgba(5,8,12,.82);display:flex;align-items:center;justify-content:center;padding:12px;z-index:9;overflow:auto}
+#ov .box{background:var(--p);border:1px solid var(--ln);border-radius:8px;max-width:600px;width:100%;padding:16px;font-family:system-ui,sans-serif;font-size:13px;line-height:1.5}
+#ov h2{margin:0 0 6px}#ov .row{display:flex;gap:6px;margin:8px 0}#ov .row button{flex:1;padding:8px}
+@media(max-width:900px){html,body{height:auto}#app{height:auto}main{grid-template-columns:1fr;grid-template-rows:none}#chart,#book,#tkt,#bot{grid-column:1;grid-row:auto}#chart{height:340px}#book{height:380px}#bot{height:360px}}
+</style></head><body>
+<div id="app">
+<header>
+<b style="font-size:15px">⚖ EUR/USD · песочница</b>
+<div><span class="k">BID (рынок)</span><span class="v up" id="hb">-</span></div>
+<div><span class="k">MID — рыночная цена</span><span class="v mid" id="hm">-</span></div>
+<div><span class="k">ASK (рынок)</span><span class="v dn" id="ha">-</span></div>
+<div><span class="k">СПРЕД, пп</span><span class="v" id="hs">-</span></div>
+<div><span class="k">ВРЕМЯ</span><span class="v" id="hc">-</span></div>
+<div><span class="k">ПОТОК</span><span class="v" id="hbal">-</span></div>
+<div><span class="k">P&amp;L ПРИ ВЫХОДЕ</span><span class="v" id="hp">-</span><span id="htop"></span></div><div><span class="k">P&amp;L ПО MID</span><span class="v" id="hp2">-</span></div>
+<span class="sp1"></span><button data-a="pz">⏸</button><button class="sp on" data-s="1">×1</button><button class="sp" data-s="5">×5</button><button class="sp" data-s="20">×20</button><button data-a="ng">Новая игра</button>
+</header>
+<main>
+<section class="pn" id="chart"><div class="th"><h4>Свечи</h4><span id="tfs"></span><button data-a="zo">−</button><button data-a="zi">+</button><button data-a="lv">⟲ live</button><span class="mu">колесо — зум · drag — прокрутка · 2×клик — цена в лимит (ниже mid → BUY, выше → SELL) · ▲▼ тейкер · ● мейкер · серый — рынок без вас</span></div><div id="cw"><canvas id="cv"></canvas></div></section>
+<section class="pn" id="book"><div class="th"><h4>Стакан</h4><span class="mu">A/B/Γ — боты, Я — вы</span></div><div class="rh"><span>Цена</span><span>Объём, M</span><span>Ваш</span><span>Кто</span></div><div id="lad"></div></section>
+<section class="pn" id="tkt">
+<div class="card">
+ <div class="pos"><span class="mu">НЕТТО-ПОЗИЦИЯ</span><b id="k1">0</b></div>
+ <div class="kv"><span>Куплено всего @ ср. цена</span><span id="kb">—</span></div>
+ <div class="kv"><span>Продано всего @ ср. цена</span><span id="ks">—</span></div>
+ <div class="kv"><span title="Средняя цена открытой нетто-позиции. Если позиция перевернулась внутри ордера, это цена только той части, что открыла новую сторону">Ср. цена нетто-позиции</span><span id="k2">—</span></div>
+ <div class="kv"><span><b>P&amp;L при выходе рынком</b></span><span id="k7">—</span></div>
+ <div class="kv"><span>Последний MKT</span><span id="kl">—</span></div>
+</div>
+<div id="notes"></div>
+<div><label>Объём, млн EUR</label><input id="sz" type="number" step="1" min="0.1" value="10">
+<div class="chips" id="ch" style="margin-top:4px"><button data-v="1">1</button><button data-v="10">10</button><button data-v="50">50</button><button data-v="100">100</button><button data-v="500">500</button><button data-v="1000">1000</button></div></div>
+<div class="sec"><div class="sh"><b>РЫНОЧНЫЙ ордер</b><span class="mu">исполняется сразу, вы тейкер</span></div>
+ <div id="pvm" class="lh"></div>
+ <div class="two"><button class="big buy" data-a="bm">BUY MKT</button><button class="big sell" data-a="sm">SELL MKT</button></div>
+ <button data-a="fl">Закрыть позицию рынком</button>
+</div>
+<div class="sec"><div class="sh"><b>ЛИМИТНЫЙ ордер</b><span class="mu">ждёт в очереди, вы мейкер</span></div>
+ <div><div class="lt"><b class="up">BUY LIMIT</b><span id="lhb" class="mu"></span></div>
+  <div class="lrow"><button data-st="b:-10">−1</button><input id="pxb" type="number" step="0.00001"><button data-st="b:10">+1</button><button data-a="rb" title="вернуть авто-цену: лучший bid">⟳</button></div></div>
+ <button class="big buy" data-a="bl">BUY LIMIT</button>
+ <div><div class="lt"><b class="dn">SELL LIMIT</b><span id="lhs" class="mu"></span></div>
+  <div class="lrow"><button data-st="s:-10">−1</button><input id="pxs" type="number" step="0.00001"><button data-st="s:10">+1</button><button data-a="rs" title="вернуть авто-цену: лучший ask">⟳</button></div></div>
+ <button class="big sell" data-a="sl">SELL LIMIT</button>
+ <div class="mu" style="font-size:10.5px;line-height:1.35">Авто-цена следует за рынком, пока вы её не измените. Лимит, пересекающий рынок, не отправляется: для этого есть MKT.</div>
+ <button data-a="ca">Снять все лимиты</button>
+</div>
+</section>
+<section class="pn" id="bot"><div class="th"><h4>Блоттер</h4><button class="bt on" data-t="e">P&amp;L и влияние</button><button class="bt" data-t="o">Мои ордера</button><button class="bt" data-t="f">Мои сделки</button><button class="bt" data-t="p">🤖 Боты и события</button><button class="bt" data-t="t">Лента</button><button class="bt" data-t="g">📖 Гайд</button></div><div id="bc"></div></section>
+</main></div>
+<div id="ov"><div class="box" id="ovb"></div></div>
+<script>
+const $=s=>document.querySelector(s),T=1e-5,PIP=10,DAYS=12,FF=100,rnd=Math.random;
+const fp=p=>(p*T).toFixed(5),r1=x=>Math.round(x*10)/10,pp=t=>(t/PIP).toFixed(1);
+const gs=()=>{let u=0;for(let i=0;i<6;i++)u+=rnd();return(u-3)*1.414};
+const hs=(a,b)=>{let x=(Math.imul(a,374761393)+Math.imul(b|0,668265263))|0;x=Math.imul(x^x>>>13,1274126177);return((x^x>>>16)>>>0)/4294967296};
+const mb=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const tlab=t=>{const s=t%86400;return(Math.floor(t/86400)+1)+'д '+String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')};
+const tsec=t=>tlab(t)+':'+String(t%60).padStart(2,'0');
+const usd=v=>(v>=0?'+':'−')+'$'+Math.abs(Math.round(v)).toLocaleString('en-US'),pc=v=>v>=0?'up':'dn';
+let paused=false,speed=1,W,G,WS,S,tab='e',timer=null,tf=5,NB=70,OFF=0,mx=-1,my=-1,drag=null,eq=[],notes=[],CH=null,LP={b:false,s:false};
+const cache={};
+function setH(sel,h){if(cache[sel]===h)return;cache[sel]=h;$(sel).innerHTML=h}
+const GUIDE=`<div class="guide">
+<h3>1. Что такое двойной аукцион</h3><p>Это рынок, где одновременно торгуют обе стороны: покупатели называют максимальную цену (<b>bid</b>), продавцы — минимальную (<b>ask / offer</b>). Цена не назначается кем-то, а возникает на встрече спроса и предложения. «Двойной» — потому что активны обе стороны (в английском аукционе торгуются только покупатели). Так устроены биржи акций и фьючерсов, а в FX — ECN-площадки (EBS, Refinitiv Matching и др.).</p>
+<h3>2. Книга заявок (стакан)</h3><p>Все неисполненные лимит-ордера лежат в стакане. Лучший bid и лучший ask образуют <b>спред</b> — цену немедленного исполнения. Приоритет исполнения: <b>цена → время</b> (price-time priority): выигрывает лучшая цена, при равенстве — тот, кто пришёл раньше.</p>
+<h3>3. Мейкер и тейкер</h3><p><b>Мейкер</b> выставляет лимит и ждёт: получает лучшую цену, но рискует не исполниться. <b>Тейкер</b> бьёт по рынку: исполняется сразу, платит спред и «съедает» глубину. Сделка всегда проходит по цене пассивной заявки, а не агрессора.</p>
+<h3>4. Непрерывный и периодический аукцион</h3><p>В <b>непрерывном</b> (CDA, как в игре) сделки идут сразу при пересечении заявок. В <b>периодическом (call)</b> заявки копятся, затем определяется единая цена клиринга — пересечение кумулятивных кривых спроса и предложения, максимизирующая объём (так работают открытие/закрытие бирж). Кривые спроса и предложения — это накопленная глубина стакана.</p>
+<h3>5. Информация и участники</h3><p>В рынке есть шумовые трейдеры, информированные игроки и маркет-мейкеры. Мейкеры боятся <b>неблагоприятного отбора</b>: если кто-то активно покупает, он, возможно, знает больше. Поэтому они сдвигают котировки и расширяют спред. Цена в аукционе — это агрегатор информации.</p>
+<h3>6. Проблема крупного игрока</h3><p>Ваш размер сам двигает рынок. <b>Временное влияние</b> — вы снимаете ликвидность и платите за глубину. <b>Постоянное влияние</b> — рынок понимает, что идёт крупный покупатель, и сдвигает цену. Эталон качества — <b>implementation shortfall</b>: разница между вашей средней ценой и ценой <b>arrival</b> (mid в момент поручения). Дилемма: торопитесь — платите влиянием, медлите — рискуете, что цена убежит.</p>
+<p>Инструменты: дробление ордера (TWAP/VWAP), пассивные лимиты у лучшей цены (вы мейкер и экономите спред), участие 5–15% объёма, смена тактики при росте утечки сигнала. Видимые лимит-заявки тоже раскрывают ваши намерения, но слабее, чем рыночные.</p>
+<h3>7. Особенности FX</h3><p>Реальный спот FX децентрализован (дилеры, OTC), но ликвидность ECN и CME-фьючерсов устроена как стакан. 1 пункт (pip) = 0,0001; шаг цены в игре = 0,1 пп (0,00001). Объёмы — в млн EUR.</p>
+<h3>8. Баланс и дисбаланс (теория аукционного рынка)</h3><p><b>Баланс</b> — состояние, когда покупатели и продавцы согласны с ценой: торговля идёт в диапазоне, объём концентрируется вокруг <b>POC</b> (цена максимального объёма), около 70% объёма лежит в <b>Value Area</b> (VAL–VAH). Движения вверх и вниз быстро отвергаются. <b>Дисбаланс</b> — одна сторона агрессивнее: цена выходит за границы value area и закрепляется там, дельта (агрессивные покупки минус продажи) и перекос стакана смотрят в одну сторону, пока рынок не найдёт новый баланс и новую справедливую цену. В периодическом аукционе дисбаланс — это неисполненный остаток одной стороны при цене клиринга; демо «Call-аукцион» показывает это на кривых. В игре каждая свеча получает метку ▲ / ▼ (дисбаланс) или = (баланс) по дельте и положению закрытия.</p><h3>9. Как играть в песочнице</h3><p>У вас «бесконечный» счёт: можно одновременно покупать и продавать любыми объёмами рынком и лимитом. Рынок живой — свечи формируются тик за тиком, рядом торгуют боты (MM-Alpha/Beta/Gamma, Noise, HFT-Sniper, Fund-Flow). Масштаб ликвидности ×1/×10/×50 задаёт размер стакана: на ×50 можно торговать сотнями миллионов. График: колесо мыши — масштаб, перетаскивание — прокрутка, кнопки 1м–4ч — таймфрейм, «⟲ live» — вернуться к текущей свече.</p>
+<h3>10. P&L позиции: по mid и при закрытии</h3><p><b>Нереализованный P&L по mid</b> = позиция × (mid − средняя цена входа): оценка «по справедливой цене». <b>P&L при закрытии</b> учитывает, что для выхода придётся пройти по стакану: лонг продаётся в bid, шорт выкупается с ask. Разница между ними — <b>стоимость выхода</b>: чем крупнее позиция, тем она больше. Реализованный P&L фиксируется при закрытии части позиции. Если вы в плюсе по mid, но в минусе при закрытии — прибыль «бумажная», её съест ваше же влияние.</p>
+<h3>11. Как вы двигаете цену</h3><p>Серый контур на графике — свеча «мира без вас» (те же случайные числа, но без ваших ордеров). Разница между цветной и серой свечой и строка «Ваш след в цене» — ваше влияние. <b>Временное</b> влияние — вы съедаете глубину, и стакан восстанавливается за минуты. <b>Постоянное</b> — направленный поток читается как информация: мейкеры сдвигают котировки, HFT забирает ликвидность. «Издержки влияния» — накопленная разница между вашими ценами исполнения и ценой рынка без вас (спред + глубина + след). Покупка и продажа одновременно гасят чистый поток, но обе стороны платят спред и глубину.</p>
+<h3>12. Почему крупные дробят заявки</h3><p>Издержки растут быстрее объёма (≈ σ·√(Q/V)), поэтому крупный игрок режет ордер на куски, использует пассивные лимиты и ждёт баланса. Проверьте сами: купите 200M одним куском и тремя по ~67M с паузой — сравните «Издержки влияния» и «Стоимость выхода».</p><h3>13. Рыночный и лимитный ордер: два разных инструмента</h3><p><b>Рыночный (MKT)</b> — «купи или продай прямо сейчас по тому, что есть». Вы тейкер: проходите по стакану уровень за уровнем, платите спред и глубину. Исполнение гарантировано, цена нет. После нажатия в журнале появляется отчёт: сколько исполнено, по каким уровням, средняя цена и насколько она хуже mid.</p><p><b>Лимитный (LIMIT)</b> — «не хуже этой цены». Он всегда пассивный: ставится в очередь и ждёт, пока рынок дойдёт до цены. Вы мейкер: экономите спред, но исполнение не гарантировано. Если введённая цена пересекает рынок (BUY не ниже ask или SELL не выше bid), ордер <b>не отправляется</b>, потому что это уже сделка по рынку, а для неё есть MKT. Так лимит никогда не превращается в маркет незаметно.</p>
+<h3>14. Цена лимита и очередь</h3><p>Поле цены лимита само следует за рынком (BUY — лучший bid, SELL — лучший ask), пока вы его не измените. Как только вы ввели цену, она фиксируется, а рядом в реальном времени показывается расстояние до рынка и очередь впереди вас (price-time priority). Кнопка ⟳ возвращает авто-цену. Клик по строке стакана или двойной клик по графику подставляет цену в нужный лимит. Цена дальше 100 пп от рынка блокируется как вероятная опечатка. В «Мои ордера» видно расстояние каждого лимита до рынка в реальном времени.</p>
+<h3>15. Какая цена считается рыночной и как читать среднюю цену</h3><p><b>Рыночная цена (mid)</b> — середина между лучшим bid и лучшим ask <b>среди заявок других участников</b>. Ваши заявки в неё не входят, иначе собственным лимитом можно было бы «нарисовать» цену и бумажную прибыль.</p><p>Средних цен несколько, и каждая отвечает на свой вопрос. <b>Ср. цена последнего MKT</b> — VWAP одного ордера. <b>Куплено / Продано @ ср. цена</b> — VWAP всех ваших покупок и всех продаж отдельно, они не зависят от того, как позиция перевернулась. <b>Ср. цена нетто-позиции</b> — цена только открытой части. Пример: у вас лонг 280M, вы одним рыночным ордером продаёте 400M. Первые 280M закрывают лонг, а оставшиеся 120M открывают шорт на самых дальних уровнях стакана. Поэтому средняя цена шорта может заметно отличаться от средней цены всего ордера, и это правильно.</p><p><b>P&amp;L при выходе</b> показывает, сколько вы получили бы, закрыв позицию рынком прямо сейчас. Это главная цифра. <b>P&amp;L по mid</b> оптимистичнее: он не учитывает, что ваш размер придётся проходить по стакану.</p>
+<h3>16. Почему видимый размер двигает рынок</h3><p>Крупный лимит у рынка виден всем. Мейкеры понимают, что рядом стоит большой покупатель, и не хотят продавать ему дёшево: убирают оферы и поднимают котировки (для большого SELL наоборот). Чем больше ваш видимый лимит рядом с рынком, тем сильнее сдвиг. Серый контур «рынка без вас» показывает этот след.</p><h3>17. Защита от сделок с самим собой</h3><p>Биржи не позволяют торговать самому с собой. Если ваш рыночный ордер дошёл бы до вашего же лимита, этот лимит снимается, а ордер идёт дальше по стакану; запись появляется в ленте событий.</p></div>
+`;
+
+/* ---------- история ---------- */
+function hist(){const M=[];let p=108500,hr;const n=DAYS*1440;let vol=1;
+ for(let i=0;i<n;i++){hr=(i%1440)/60;const act=.5+.9*Math.exp(-((hr-14)**2)/18)+.5*Math.exp(-((hr-8)**2)/12);
+  vol=Math.max(.5,Math.min(2.2,vol+.06*gs()));const o=p;let h=p,l=p;
+  for(let j=0;j<6;j++){p+=4.7*act*vol*gs();h=Math.max(h,p);l=Math.min(l,p)}
+  M.push({t0:i*60,o:Math.round(o),h:Math.round(h),l:Math.round(l),c:Math.round(p),v:r1(18*act*vol*(.7+rnd()*.6))})}
+ const sh=108500-M[n-1].c;M.forEach(c=>{c.o+=sh;c.h+=sh;c.l+=sh;c.c+=sh});return M}
+
+/* ---------- рынок: котировки БЕЗ ваших заявок (это и есть «рыночная цена») ---------- */
+const first=a=>{for(let i=0;i<a.length;i++)if(!a[i].own)return a[i];return null};
+function xq(s){const b=first(s.bids),a=first(s.asks);let bb,ba;
+ if(b&&a){bb=b.p;ba=a.p}else if(b){bb=b.p;ba=Math.max(s.last,b.p+1)}else if(a){ba=a.p;bb=Math.min(s.last,a.p-1)}else{bb=s.last-5;ba=s.last+5}
+ return{bb,ba,mid:(bb+ba)/2}}
+const mine=()=>W.bids.concat(W.asks).filter(o=>o.own);
+
+/* ---------- участники ---------- */
+const MM=['MM-Alpha','MM-Beta','MM-Gamma'],NZ=['Noise-1','Noise-2','Noise-3'],CODE={'MM-Alpha':'A','MM-Beta':'B','MM-Gamma':'Γ','YOU':'Я'};
+const BI={'MM-Alpha':['Маркет-мейкер','быстрый, узкий спред, малые размеры'],'MM-Beta':['Маркет-мейкер','глубокий, большие объёмы дальше от рынка'],'MM-Gamma':['Маркет-мейкер','осторожный: при крупном потоке уходит и сдвигает котировки'],'Noise-1':['Шумовой тейкер','случайные рыночные ордера'],'Noise-2':['Шумовой тейкер','случайные рыночные ордера'],'Noise-3':['Шумовой тейкер','случайные рыночные ордера'],'HFT-Sniper':['HFT','читает направленный поток и забирает ликвидность перед вами'],'Fund-Flow':['Крупный фонд','периодически идёт одной стороной — дисбаланс']};
+function mkBots(){const b={};Object.keys(BI).concat(['YOU']).forEach(k=>b[k]={pos:0,cash:0,n:0});return b}
+function ev(s,m){if(!s.log)return;s.log.unshift({t:s.t,m});if(s.log.length>60)s.log.pop()}
+function note(m,k,t){notes.unshift({t:t==null?(W?W.t:0):t,m,k:k||''});if(notes.length>6)notes.pop()}
+function newW(f,seed,L){return{t:0,f,lean:0,ep:null,bids:[],asks:[],bid:0,own:0,sq:0,M:[],cur:null,fills:[],last:f,seed,L:L||1,pos:0,avg:0,real:0,done:0,cost:0,mk:0,mkc:0,lm:0,lmc:0,ec:0,bq:0,bc:0,sq2:0,sc:0,pm:f,log:null,tape:[],bots:mkBots(),lastM:null}}
+function cl(s){const q=n=>n.map(o=>({...o}));return{...s,bids:q(s.bids),asks:q(s.asks),M:[],fills:[],cur:{...s.cur},ep:s.ep&&{...s.ep},pos:0,avg:0,real:0,done:0,cost:0,mk:0,mkc:0,lm:0,lmc:0,ec:0,bq:0,bc:0,sq2:0,sc:0,log:null,tape:[],bots:JSON.parse(JSON.stringify(s.bots)),lastM:null}}
+
+/* ---------- движок двойного аукциона: приоритет цена → время ---------- */
+function submit(s,side,p,q,own,mkt,ow,opt){opt=opt||{};
+ const o={id:opt.id||(own?1e9+(++s.own):++s.bid),ts:++s.sq,side,p,q,own,ow:own?'YOU':ow,fl:opt.fl||0,cs:opt.cs||0,lv:0,kind:opt.kind||'LMT',q0:opt.q0||q};
+ const opp=side>0?s.asks:s.bids;let lp=null;
+ while(o.q>1e-9&&opp.length){const m=opp[0];
+  if(!mkt&&(side>0?o.p<m.p:o.p>m.p))break;
+  if(own&&m.own){opp.shift();ev(s,'Ваш встречный лимит снят: защита от сделки с самим собой');continue}
+  const x=Math.min(o.q,m.q);o.q=r1(o.q-x);m.q=r1(m.q-x);o.fl+=x;o.cs+=x*m.p;if(m.p!==lp){o.lv++;lp=m.p}
+  trade(s,m.p,x,side,o,m);if(m.q<1e-9)opp.shift()}
+ if(o.q>1e-9&&!mkt&&!opt.ioc){const a=side>0?s.bids:s.asks;a.push(o);a.sort(side>0?(x,y)=>y.p-x.p||x.ts-y.ts:(x,y)=>x.p-y.p||x.ts-y.ts)}
+ return o}
+function trade(s,p,x,side,a,m){s.last=p;
+ [a,m].forEach(o=>{const b=s.bots[o.ow];if(b){b.pos+=o.side*x;b.cash-=o.side*x*p;b.n++}});
+ s.tape.unshift({t:s.t,p,x,s:side,b:side>0?a.ow:m.ow,sl:side>0?m.ow:a.ow});if(s.tape.length>60)s.tape.pop();
+ const c=s.cur;c.c=p;c.h=Math.max(c.h,p);c.l=Math.min(c.l,p);c.v+=x;
+ [a,m].forEach(o=>{if(!o.own)return;const ps=o===m,cp=o===a?m.ow:a.ow;
+  s.done+=x;s.cost+=x*p;s.ec+=x*(p-(G?xq(G).mid:p))*o.side;
+  if(ps){s.lm+=x;s.lmc+=x*p}else{s.mk+=x;s.mkc+=x*p}
+  if(o.side>0){s.bq+=x;s.bc+=x*p}else{s.sq2+=x;s.sc+=x*p}
+  s.fills.push({t:s.t,p,x,ps,sd:o.side,cp,pm:s.pm,k:o.kind});posUpd(s,o.side,x,p);
+  if(ps){const m2=`Исполнен ваш лимит ${o.side>0?'BUY':'SELL'}: ${r1(x)}M @ ${fp(p)} (контрагент ${cp})`;ev(s,m2);note(m2,'f',s.t)}})}
+function posUpd(s,sg,x,p){let pos=s.pos,av=s.avg;if(Math.abs(pos)<1e-6||Math.sign(pos)===sg){av=(Math.abs(pos)*av+x*p)/(Math.abs(pos)+x);pos+=sg*x}else{const c=Math.min(x,Math.abs(pos));s.real+=c*(p-av)*Math.sign(pos);pos+=sg*x;if(Math.abs(pos)<1e-6)pos=0;else if(Math.sign(pos)===sg)av=p}s.pos=Math.round(pos*1e6)/1e6;s.avg=av}
+
+/* мейкеры видят ваши крупные видимые лимиты у рынка и сдвигают котировки (не хотят продавать дёшево известному покупателю) */
+function skewOf(s){let v=0;const Q=xq(s);for(const o of s.bids)if(o.own)v+=o.q*Math.exp(-Math.max(0,(Q.mid-o.p)/PIP)/3);for(const o of s.asks)if(o.own)v-=o.q*Math.exp(-Math.max(0,(o.p-Q.mid)/PIP)/3);return Math.max(-8,Math.min(8,v/(4*s.L)))}
+/* ---------- один шаг рынка (1 секунда) ---------- */
+function stepW(s){s.t++;s.pm=xq(s).mid;const R=mb(s.seed^Math.imul(s.t,2654435761)),g1=(()=>{let u=0;for(let i=0;i<6;i++)u+=R();return(u-3)*1.414})();
+ s.lean*=.99336;const u1=hs(1,s.t),u2=hs(2,s.t);
+ if(!s.ep&&u1<1/2400){s.ep={d:u2<.5?1:-1,e:s.t+300+Math.floor(u1*2400*900)};ev(s,'Fund-Flow начал серию '+(s.ep.d>0?'покупок':'продаж')+' — нарастает дисбаланс')}
+ if(s.ep&&s.t>s.ep.e){s.ep=null;ev(s,'Fund-Flow закончил серию — рынок ищет новый баланс')}
+ const ed=s.ep?s.ep.d:0;s.f+=1.5*g1+s.lean*.004/s.L+ed*.03;const c=s.f+s.lean*.1/s.L+skewOf(s);
+ for(const sd of[1,-1]){const a=R(),b=R(),z=R(),w=R(),mi=Math.floor(w*3),e=-Math.log(b||1e-9);if(a<.7){const off=mi==0?1+e*3:mi==1?2+e*7:1+e*5,q=mi==0?.5+z*1.5:mi==1?1+z*3:.5+z*2.5;
+  if(mi==2&&Math.abs(s.lean)>10*s.L){if(!s.gp){s.gp=1;ev(s,'MM-Gamma отодвигает котировки — почувствовал крупный поток')}}
+  else{if(mi==2)s.gp=0;submit(s,sd,Math.round(c+(mi==2?s.lean*.15/s.L:0))-sd*Math.max(1,Math.floor(off)),r1(q*s.L),false,false,MM[mi])}}}
+ s.bids=s.bids.filter(o=>o.own||hs(o.id,s.t)>.035&&o.p<c+3);s.asks=s.asks.filter(o=>o.own||hs(o.id,s.t)>.035&&o.p>c-3);
+ {const a=R(),b=R(),z=R(),w=R();if(a<.3+.12*Math.abs(ed)){const fd=ed!==0&&w<.4;submit(s,fd?ed:(b<.5+.28*ed?1:-1),0,r1((fd?1+z*2.5:.3+z*1.7)*s.L),false,true,fd?'Fund-Flow':NZ[Math.floor(w*3)%3])}}
+ {const a=R(),z=R(),L=s.lean;if(Math.abs(L)>6*s.L&&a<Math.min(.5,Math.abs(L)/(50*s.L))){submit(s,Math.sign(L),0,r1((.5+z*1.5)*s.L),false,true,'HFT-Sniper');if(s.log&&s.t-(s.lh||0)>25){s.lh=s.t;ev(s,'HFT-Sniper '+(L>0?'покупает':'продаёт')+' перед вами — прочитал ваш поток')}}}
+ if(s.t>=s.cur.t0+60){s.M.push(s.cur);s.cur={t0:s.cur.t0+60,o:s.last,h:s.last,l:s.last,c:s.last,v:0}}}
+function stepAll(){WS.forEach(stepW)}
+function dropOrder(id){W.bids=W.bids.filter(o=>o.id!=id);W.asks=W.asks.filter(o=>o.id!=id)}
+
+/* ---------- оценка позиции ---------- */
+function liq(){const pos=W.pos;if(Math.abs(pos)<1e-6)return{px:0,u:0};const a=(pos>0?W.bids:W.asks).filter(o=>!o.own);let r=Math.abs(pos),c=0;
+ for(const m of a){if(r<=1e-9)break;const x=Math.min(r,m.q);c+=x*m.p;r-=x}
+ if(r>0)c+=r*(a.length?a[a.length-1].p+(pos>0?-1:1)*20:W.last);
+ const px=c/Math.abs(pos);return{px,u:pos*(px-W.avg)*10}}
+function snap(){const m=xq(W).mid,re=W.real*10,L=liq();eq.push({t:W.t,m:re+W.pos*(m-W.avg)*10,l:re+L.u});if(eq.length>900)eq.shift()}
+
+function init(L){const M=hist(),t0=DAYS*86400,c0=M[M.length-1].c,seed=Math.floor(Math.random()*1e9);M.forEach(c=>c.v=r1(c.v*L));
+ W=newW(c0,seed,L);G=null;W.M=M;W.t=t0;W.cur={t0,o:c0,h:c0,l:c0,c:c0,v:0};
+ const tot=1200+((3600-(t0+1200)%3600)%3600);for(let i=0;i<tot;i++)stepW(W);
+ W.log=[];W.tape=[];W.bots=mkBots();W.fills=[];W.done=0;W.cost=0;W.ec=0;W.bq=W.bc=W.sq2=W.sc=0;G=cl(W);WS=[W,G];S={t0:W.t,L,arr:xq(W).mid};eq=[];OFF=0;notes=[];
+ LP.b=LP.s=false;$('#sz').value=10*L;$('#ov').style.display='none';paused=false;$('[data-a=pz]').textContent='⏸';
+ Object.keys(cache).forEach(k=>delete cache[k]);clearInterval(timer);timer=setInterval(tick,100);snap();
+ note('Рынок запущен. Оценка позиции идёт по mid без ваших заявок.','',W.t);ui()}
+function tick(){if(paused||!S)return;for(let i=0;i<speed;i++){stepAll();if(W.t%5===0)snap()}ui()}
+const qty=()=>r1(+$('#sz').value);
+
+/* ---------- расчёты для тикета ---------- */
+function sw(a,q){let r=q,c=0,lv=0,lp=null;for(const m of a){if(m.own)continue;if(r<=1e-9)break;const x=Math.min(r,m.q);c+=x*m.p;r-=x;if(m.p!==lp){lv++;lp=m.p}}const f=q-r;return{f,avg:f?c/f:0,lv}}
+function queueAhead(sd,p){return(sd>0?W.bids:W.asks).filter(o=>!o.own&&(sd>0?o.p>=p:o.p<=p)).reduce((s,o)=>s+o.q,0)}
+const pxOf=sd=>Math.round((+$(sd>0?'#pxb':'#pxs').value||0)/T);
+/* лимит всегда пассивный: BUY строго ниже ask, SELL строго выше bid. Всё, что пересекает рынок, — это маркет, и для него есть MKT */
+function limCheck(sd,p){const Q=xq(W);
+ if(!(p>0))return{ok:false,short:'введите цену',msg:'Введите цену'};
+ if(sd>0&&p>=Q.ba)return{ok:false,short:'цена ≥ ask: это сделка по рынку',msg:`цена ${fp(p)} не ниже ask ${fp(Q.ba)} — это уже сделка по рынку. Для мгновенной покупки нажмите BUY MKT, для лимита поставьте цену ниже ask.`};
+ if(sd<0&&p<=Q.bb)return{ok:false,short:'цена ≤ bid: это сделка по рынку',msg:`цена ${fp(p)} не выше bid ${fp(Q.bb)} — это уже сделка по рынку. Для мгновенной продажи нажмите SELL MKT, для лимита поставьте цену выше bid.`};
+ if(Math.abs(p-Q.mid)>FF*PIP)return{ok:false,short:'слишком далеко от рынка',msg:`цена ${fp(p)} в ${pp(Math.abs(p-Q.mid))} пп от рынка (${fp(Q.mid)}) — похоже на опечатку или устаревшую цену.`};
+ return{ok:true,d:(sd>0?Q.bb-p:p-Q.ba)/PIP,qa:queueAhead(sd,p)}}
+
+/* ---------- действия ---------- */
+function mkt(sd,q){q=q||qty();if(!(q>0)){note('Укажите объём','w');return ui()}
+ const Q=xq(W);W.pm=Q.mid;const n0=W.fills.length,o=submit(W,sd,0,q,true,true,null,{kind:'MKT'});W.lean+=o.fl*sd;
+ const fs=W.fills.slice(n0),lv=new Map(),cps={};fs.forEach(f=>{lv.set(f.p,(lv.get(f.p)||0)+f.x);cps[f.cp]=(cps[f.cp]||0)+f.x});
+ if(o.fl>0){const av=o.cs/o.fl,sl=(av-Q.mid)*sd/PIP,cost=sl*100*o.fl,rest=q-o.fl;W.lastM={sd,q:o.fl,av,sl,cost};
+  const lvs=[...lv].map(([p,x])=>fp(p)+' × '+r1(x)+'M');
+  note(`<b>${sd>0?'КУПИЛИ':'ПРОДАЛИ'} ${r1(o.fl)}M рынком${rest>.04?' из '+q+'M (стакан исчерпан)':''}. Ср. цена ${fp(av)}</b> по ${lv.size} ур.: ${lvs.slice(0,5).join(' · ')}${lvs.length>5?' · …':''}. Mid до сделки ${fp(Q.mid)}, хуже на ${sl.toFixed(2)} пп ≈ $${Math.round(cost).toLocaleString('en-US')}. Контрагенты: ${Object.entries(cps).map(([k,v])=>k+' '+r1(v)+'M').join(', ')}`,'ok')}
+ else note('Стакан пуст — нечего брать','w');
+ ui()}
+function lim(sd){const q=qty();if(!(q>0)){note('Укажите объём','w');return ui()}
+ const p=pxOf(sd),c=limCheck(sd,p),nm=sd>0?'BUY':'SELL';
+ if(!c.ok){note(`${nm} LIMIT не отправлен: ${c.msg}`,'w');return ui()}
+ const Q=xq(W);W.pm=Q.mid;const o=submit(W,sd,p,q,true,false,null,{kind:'LMT'});
+ W.lean+=sd*(o.fl+o.q*.3*Math.exp(-Math.max(0,c.d)/3));
+ note(`${nm} LIMIT ${q}M @ ${fp(p)} стоит в стакане. Вы мейкер: ${c.d<0?'внутри спреда, вы первый в очереди':c.d===0?'на лучшей цене':c.d.toFixed(1)+' пп от '+(sd>0?'bid':'ask')}, впереди в очереди ${c.qa.toFixed(1)}M. Исполнится только если рынок дойдёт до цены.`,'ok');ui()}
+function cancelAll(){const n=mine().length;W.bids=W.bids.filter(o=>!o.own);W.asks=W.asks.filter(o=>!o.own);note(n?`Снято лимитов: ${n}`:'Активных лимитов нет',n?'':'w');ui()}
+function flat(){const pos=W.pos;if(Math.abs(pos)<.05){note('Позиции нет','w');return ui()}W.bids=W.bids.filter(o=>!o.own);W.asks=W.asks.filter(o=>!o.own);mkt(pos>0?-1:1,r1(Math.abs(pos)))}
+function agg(k,n,M,cur){const src=M.slice(-(n*k+k)).concat([cur]),out=[];let b=null;
+ for(const c of src){const key=Math.floor(c.t0/(60*k));if(!b||b.k!==key){b={k:key,t0:key*60*k,o:c.o,h:c.h,l:c.l,c:c.c,v:c.v};out.push(b)}else{b.h=Math.max(b.h,c.h);b.l=Math.min(b.l,c.l);b.c=c.c;b.v+=c.v}}
+ return out.slice(-n)}
+
+/* ---------- стакан ---------- */
+function lad(){const ag=a=>{const m=new Map,w=new Map,u=new Map;a.forEach(o=>{m.set(o.p,(m.get(o.p)||0)+o.q);if(o.own)w.set(o.p,(w.get(o.p)||0)+o.q);const c=CODE[o.ow];if(c){const z=u.get(o.p)||new Set;z.add(c);u.set(o.p,z)}});return[...m].map(([p,q])=>({p,q,w:w.get(p)||0,u:[...(u.get(p)||[])].join('')}))};
+ const A=ag(W.asks).sort((a,b)=>a.p-b.p).slice(0,12),B=ag(W.bids).sort((a,b)=>b.p-a.p).slice(0,12),mxq=Math.max(1,...A.map(r=>r.q),...B.map(r=>r.q)),Q=xq(W);
+ const row=(r,c)=>`<div class="r ${c}${r.w?' me':''}" data-p="${r.p}"><i style="width:${r.q/mxq*100}%"></i><b>${fp(r.p)}</b><span>${r.q.toFixed(1)}</span><em>${r.w?r.w.toFixed(1):''}</em><u>${r.u}</u></div>`;
+ setH('#lad',A.reverse().map(r=>row(r,'a')).join('')+`<div class="spr"><span class="m">${fp(Q.mid)}</span><span class="s">спред ${pp(Q.ba-Q.bb)} пп</span></div>`+B.map(r=>row(r,'b')).join(''))}
+
+/* ---------- график ---------- */
+function chart(){const cv=$('#cv'),d=devicePixelRatio||1,Wd=cv.clientWidth,H=cv.clientHeight;if(!Wd||!H)return;
+ const cw=Math.round(Wd*d),ch=Math.round(H*d);if(cv.width!==cw||cv.height!==ch){cv.width=cw;cv.height=ch}
+ const g=cv.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,Wd,H);const cs=getComputedStyle(document.documentElement),C=n=>cs.getPropertyValue(n).trim();g.font='10px ui-monospace,monospace';
+ const Q=xq(W),pw=Wd-62,all=agg(tf,NB+OFF,W.M,W.cur);OFF=Math.min(OFF,Math.max(0,all.length-10));const D=all.slice(0,all.length-OFF).slice(-NB),sl=pw/NB,k1=D[D.length-1].k,X=k=>pw-(k1-k)*sl-sl/2;
+ const GD=agg(tf,NB+OFF,G.M,G.cur).filter(c=>c.k>=D[0].k&&c.k<=k1&&c.t0+60*tf>S.t0),ph2=H-30,vh=ph2*.14,py=ph2-vh-6;
+ let hi=Math.max(...D.map(c=>c.h),...GD.map(c=>c.h),Q.ba),lo=Math.min(...D.map(c=>c.l),...GD.map(c=>c.l),Q.bb);const av=Math.abs(W.pos)>1e-6?W.avg:null;if(av&&OFF===0){hi=Math.max(hi,av);lo=Math.min(lo,av)}
+ const pad=(hi-lo)*.1+2;hi+=pad;lo-=pad;const Y=p=>14+(hi-p)/(hi-lo)*(py-14),vm=Math.max(1,...D.map(c=>c.v));CH={hi,lo,py};
+ g.strokeStyle=C('--ln');g.fillStyle=C('--mu');for(let i=0;i<=5;i++){const p=lo+(hi-lo)*i/5,y=Y(p);g.beginPath();g.moveTo(0,y);g.lineTo(pw,y);g.stroke();g.fillText(fp(p),pw+4,y+3)}
+ const st=Math.ceil(80/sl);D.forEach((c,i)=>{if((D.length-1-i)%st===0)g.fillText(tlab(c.t0),X(c.k)-14,H-3)});
+ D.forEach(c=>{const x=X(c.k),u=c.c>=c.o,col=C(u?'--up':'--dn');g.strokeStyle=g.fillStyle=col;g.beginPath();g.moveTo(x,Y(c.h));g.lineTo(x,Y(c.l));g.stroke();const y1=Y(Math.max(c.o,c.c)),y2=Math.max(Y(Math.min(c.o,c.c)),y1+1);g.fillRect(x-sl*.35,y1,sl*.7,y2-y1);g.globalAlpha=.35;g.fillRect(x-sl*.35,ph2-c.v/vm*vh,sl*.7,c.v/vm*vh);g.globalAlpha=1});
+ g.strokeStyle=C('--tx');g.globalAlpha=.7;GD.forEach(c=>{const x=X(c.k),y1=Y(Math.max(c.o,c.c)),y2=Math.max(Y(Math.min(c.o,c.c)),y1+1);g.beginPath();g.moveTo(x,Y(c.h));g.lineTo(x,Y(c.l));g.stroke();g.strokeRect(x-sl*.25,y1,sl*.5,y2-y1)});g.globalAlpha=1;
+ const ln=(p,col,lb,dash,w)=>{if(p==null||p<lo||p>hi)return;const y=Y(p);g.strokeStyle=g.fillStyle=C(col);g.lineWidth=w||1;g.setLineDash(dash);g.beginPath();g.moveTo(0,y);g.lineTo(pw,y);g.stroke();g.setLineDash([]);g.lineWidth=1;g.fillText(lb,pw+4,y-2)};
+ if(av){const pr=W.pos*(Q.mid-av);ln(av,pr>=0?'--up':'--dn','ВХОД '+(W.pos>0?'L':'S'),[2,3],1.5)}
+ ln(Q.bb,'--up','bid',[1,3]);ln(Q.ba,'--dn','ask',[1,3]);
+ mine().forEach(o=>ln(o.p,o.side>0?'--up':'--dn',(o.side>0?'B ':'S ')+o.q.toFixed(0),[]));
+ W.fills.forEach(m=>{const k=Math.floor(m.t/(60*tf));if(k<D[0].k||k>k1)return;const x=X(k)+(m.ps?4:-4),y=Y(m.p),rr=Math.min(7,3+m.x/W.L/20);g.fillStyle=C(m.sd>0?'--up':'--dn');g.beginPath();if(m.ps)g.arc(x,y,rr*.8,0,7);else if(m.sd>0){g.moveTo(x,y-rr);g.lineTo(x-rr,y+rr);g.lineTo(x+rr,y+rr)}else{g.moveTo(x,y+rr);g.lineTo(x-rr,y-rr);g.lineTo(x+rr,y-rr)}g.fill()});
+ if(Q.mid<=hi&&Q.mid>=lo){const y=Y(Q.mid);g.fillStyle=C('--ac');g.fillRect(pw,y-7,62,14);g.fillStyle='#fff';g.fillText(fp(Q.mid),pw+3,y+3)}
+ if(my>=14&&my<=py&&mx>=0&&mx<pw){const p=hi-(my-14)/(py-14)*(hi-lo);g.strokeStyle=C('--mu');g.setLineDash([2,3]);g.beginPath();g.moveTo(0,my);g.lineTo(pw,my);g.stroke();g.setLineDash([]);g.fillStyle=C('--mu');g.fillRect(pw,my-7,62,14);g.fillStyle=C('--bg');g.fillText(fp(p),pw+3,my+3)}
+ if(mx>=0&&mx<pw){const i=D.length-1-Math.round((pw-sl/2-mx)/sl),c=D[i];if(c){g.strokeStyle=C('--mu');g.beginPath();g.moveTo(X(c.k),0);g.lineTo(X(c.k),py);g.stroke();g.fillStyle=C('--tx');g.fillText(`${tlab(c.t0)}  O ${fp(c.o)} H ${fp(c.h)} L ${fp(c.l)} C ${fp(c.c)}  V ${c.v.toFixed(0)}M`,6,10)}}}
+function eqDraw(){const cv=$('#eqc');if(!cv||eq.length<2)return;const Wd=cv.clientWidth,H=cv.clientHeight,d=devicePixelRatio||1;cv.width=Wd*d;cv.height=H*d;const g=cv.getContext('2d');g.setTransform(d,0,0,d,0,0);const cs=getComputedStyle(document.documentElement),C=n=>cs.getPropertyValue(n).trim();
+ const mn=Math.min(0,...eq.map(p=>Math.min(p.m,p.l))),mxv=Math.max(0,...eq.map(p=>Math.max(p.m,p.l)))||1,Y=v=>6+(mxv-v)/((mxv-mn)||1)*(H-18),X=i=>i/(eq.length-1)*(Wd-90);
+ g.strokeStyle=C('--ln');g.beginPath();g.moveTo(0,Y(0));g.lineTo(Wd-90,Y(0));g.stroke();g.font='10px ui-monospace,monospace';g.fillStyle=C('--mu');g.fillText('$0',Wd-80,Y(0)+3);
+ [['m','--ac','по mid'],['l','--wr','при закрытии']].forEach(([k,c,n],j)=>{g.strokeStyle=g.fillStyle=C(c);g.beginPath();eq.forEach((p,i)=>i?g.lineTo(X(i),Y(p[k])):g.moveTo(X(i),Y(p[k])));g.stroke();g.fillText(n+' '+Math.round(eq[eq.length-1][k]),Wd-88,14+j*12)})}
+
+/* ---------- блоттер ---------- */
+function botsHTML(){const m=xq(W).mid,Qb={};W.bids.concat(W.asks).forEach(o=>Qb[o.ow]=(Qb[o.ow]||0)+o.q);
+ const rows=Object.keys(BI).concat(['YOU']).map(k=>{const b=W.bots[k],pn=(b.cash+b.pos*m)*10,i=BI[k]||['Вы','ваши ордера'];return`<tr><td>${k}</td><td class="mu">${i[0]}: ${i[1]}</td><td>${b.pos.toFixed(1)}M</td><td class="${pc(pn)}">${usd(pn)}</td><td>${(Qb[k]||0).toFixed(1)}M</td><td>${b.n}</td></tr>`}).join('');
+ return`<table><tr><th>Участник</th><th>Роль</th><th>Позиция EUR</th><th>PnL (по mid)</th><th>В стакане</th><th>Сделок</th></tr>${rows}</table><p><b>События рынка</b></p>`+(W.log.length?W.log.slice(0,14).map(e=>`<div><span class="mu">${tsec(e.t)}</span> ${e.m}</div>`).join(''):'<p class="mu">Пока тихо…</p>')}
+function tapeHTML(){return`<table><tr><th>Время</th><th>Цена</th><th>Объём</th><th>Покупатель</th><th>Продавец</th></tr>${W.tape.slice(0,40).map(x=>`<tr${x.b==='YOU'||x.sl==='YOU'?' style="background:var(--hl)"':''}><td>${tsec(x.t)}</td><td class="${x.s>0?'up':'dn'}">${fp(x.p)}</td><td>${x.x.toFixed(1)}M</td><td>${x.b}</td><td>${x.sl}</td></tr>`).join('')}</table>`}
+function ordersHTML(){const a=mine().sort((x,y)=>y.p-x.p),Q=xq(W);
+ if(!a.length)return'<p class="mu">Нет активных лимитов. Рыночные ордера исполняются мгновенно и здесь не висят — смотрите «Мои сделки».</p>';
+ return`<table><tr><th>Сторона</th><th>Цена</th><th>Расстояние до рынка</th><th>Остаток</th><th>Исполнено</th><th>Очередь впереди</th><th></th></tr>${a.map(o=>{const d=(o.side>0?Q.bb-o.p:o.p-Q.ba)/PIP,ref=o.side>0?'bid':'ask';
+  return`<tr><td class="${o.side>0?'up':'dn'}">${o.side>0?'BUY':'SELL'}</td><td>${fp(o.p)}</td><td class="${d>20?'wr':''}">${d<0?'внутри спреда':d===0?'лучшая цена':d.toFixed(1)+' пп от '+ref}${d>20?' ⚠ далеко':''}</td><td>${o.q.toFixed(1)}M</td><td>${o.fl.toFixed(1)}M</td><td>${queueAhead(o.side,o.p).toFixed(1)}M</td><td><button data-c="${o.id}">✕</button></td></tr>`}).join('')}</table>`}
+function fillsHTML(){const f=W.fills.slice(-60).reverse(),ab=W.bq?W.bc/W.bq:0,as=W.sq2?W.sc/W.sq2:0;
+ const head=`<div style="margin-bottom:4px">Ср. цена покупок: <b>${W.bq?fp(ab):'—'}</b> (${W.bq.toFixed(1)}M) · ср. цена продаж: <b>${W.sq2?fp(as):'—'}</b> (${W.sq2.toFixed(1)}M) · тейкер ${W.mk.toFixed(0)}M / мейкер ${W.lm.toFixed(0)}M</div>`;
+ if(!f.length)return head+'<p class="mu">Сделок пока нет.</p>';
+ return head+`<table><tr><th>Время</th><th>Сторона</th><th>Тип</th><th>Объём</th><th>Цена</th><th>К mid на момент сделки, пп</th><th>Контрагент</th></tr>${f.map(x=>{const dv=(x.p-x.pm)*x.sd/PIP;return`<tr><td>${tsec(x.t)}</td><td class="${x.sd>0?'up':'dn'}">${x.sd>0?'BUY':'SELL'}</td><td>${x.ps?'мейкер (лимит)':'тейкер ('+(x.k==='MKT'?'рынок':'лимит')+')'}</td><td>${x.x.toFixed(1)}M</td><td>${fp(x.p)}</td><td class="${dv>0?'dn':'up'}">${dv>0?'+':''}${dv.toFixed(2)}</td><td>${x.cp}</td></tr>`}).join('')}</table>`}
+function tb(P){let h='';
+ if(tab==='e'){const ab=W.bq?fp(W.bc/W.bq):'—',as=W.sq2?fp(W.sc/W.sq2):'—';
+  h=`<canvas id="eqc" style="width:100%;height:120px"></canvas><table><tr><th>Показатель</th><th>Значение</th><th>Что это</th></tr><tr><td>Итого по mid</td><td class="${pc(P.tot)}">${usd(P.tot)}</td><td class="mu">оценка по рыночному mid (без ваших заявок)</td></tr><tr><td>Итого при закрытии</td><td class="${pc(P.totl)}">${usd(P.totl)}</td><td class="mu">если выйти рынком прямо сейчас (с проскальзыванием)</td></tr><tr><td>Стоимость выхода</td><td class="dn">${usd(P.exit)}</td><td class="mu">разница между двумя оценками: цена вашего размера</td></tr><tr><td>Издержки влияния</td><td class="dn">−$${Math.round(W.ec*10).toLocaleString('en-US')}</td><td class="mu">заплачено сверх цены рынка «без вас» (спред + глубина + след)</td></tr><tr><td>Ср. покупка / ср. продажа</td><td>${ab} / ${as}</td><td class="mu">взвешенные по объёму цены ваших исполнений (покупки и продажи отдельно)</td></tr><tr><td>Реализованный P&L</td><td class="${pc(P.re)}">${usd(P.re)}</td><td class="mu">зафиксирован закрытой частью позиции</td></tr><tr><td>Ваш след в цене</td><td class="${Math.abs(P.imp)>.05?'dn':''}">${P.imp.toFixed(2)} пп</td><td class="mu">на сколько mid отличается от рынка «без вас»</td></tr><tr><td>Оборот</td><td>${W.done.toFixed(0)}M</td><td class="mu">объём всех ваших сделок</td></tr></table>`}
+ else if(tab==='p')h=botsHTML();else if(tab==='t')h=tapeHTML();else if(tab==='o')h=ordersHTML();else if(tab==='f')h=fillsHTML();else h=GUIDE;
+ setH('#bc',h);if(tab==='e')eqDraw()}
+
+function renderNotes(){setH('#notes',notes.map(n=>`<div class="${n.k}"><small>${tsec(n.t)}</small> ${n.m}</div>`).join(''))}
+function ui(){if(!W)return;const Q=xq(W),b=Q.bb,a=Q.ba,m=Q.mid;
+ $('#hb').textContent=fp(b);$('#ha').textContent=fp(a);$('#hm').textContent=fp(m);$('#hs').textContent=pp(a-b);$('#hc').textContent=tlab(W.t);
+ const tbd=W.bids[0],tak=W.asks[0];$('#htop').textContent=tbd&&tbd.own?'ваш BID — лучший в стакане':tak&&tak.own?'ваш ASK — лучший в стакане':'';
+ let bv=0,sv=0;W.tape.slice(0,40).forEach(x=>x.s>0?bv+=x.x:sv+=x.x);const dr=(bv-sv)/((bv+sv)||1),hb=$('#hbal');hb.textContent=dr>.3?'ДИСБАЛАНС ▲':dr<-.3?'ДИСБАЛАНС ▼':'БАЛАНС';hb.className='v '+(dr>.3?'up':dr<-.3?'dn':'mu');
+ const pos=W.pos,L=liq(),un=pos*(m-W.avg)*10,re=W.real*10,tot=un+re,totl=re+L.u,exit=L.u-un,imp=(m-xq(G).mid)/PIP;
+ const set=(id,t,c)=>{const e=$('#'+id);e.textContent=t;e.className=c||''};
+ set('hp',usd(totl),'v '+pc(totl));set('hp2',usd(tot),'v '+pc(tot));
+ set('k1',Math.abs(pos)<1e-6?'0':(pos>0?'LONG ':'SHORT ')+Math.abs(pos).toFixed(1)+'M',pos>0?'up':pos<0?'dn':'');
+ set('kb',W.bq?r1(W.bq)+'M @ '+fp(W.bc/W.bq):'—');set('ks',W.sq2?r1(W.sq2)+'M @ '+fp(W.sc/W.sq2):'—');
+ set('k2',Math.abs(pos)<1e-6?'—':fp(W.avg));set('k7',usd(totl),pc(totl));
+ const lm=W.lastM;set('kl',lm?`${lm.sd>0?'BUY':'SELL'} ${r1(lm.q)}M @ ${fp(lm.av)}`:'—',lm?(lm.sd>0?'up':'dn'):'');
+ const q=qty(),bs=sw(W.asks,q),ss=sw(W.bids,q);
+ const ln=(nm,r,sd)=>{if(!(q>0))return'';if(!r.f)return`${nm}: нечего брать`;const sp=(r.avg-m)*sd/PIP;return`<b class="${sd>0?'up':'dn'}">${nm} ${r1(r.f)}M</b>${q-r.f>.04?` из ${q}`:''} → ср. цена <b>${fp(r.avg)}</b> по ${r.lv} ур., хуже mid на ${sp.toFixed(2)} пп ≈ $${Math.round(sp*100*r.f).toLocaleString('en-US')}`};
+ setH('#pvm',q>0?ln('BUY',bs,1)+'<br>'+ln('SELL',ss,-1):'<span class="mu">Укажите объём</span>');
+ [[1,'b','bl','#pxb','#lhb'],[-1,'s','sl','#pxs','#lhs']].forEach(([sd,k,ac,id,hid])=>{const inp=$(id);
+  if(!LP[k]&&document.activeElement!==inp)inp.value=fp(sd>0?b:a);
+  const p=pxOf(sd),c=limCheck(sd,p);$('[data-a='+ac+']').disabled=!c.ok;
+  setH(hid,c.ok?`${LP[k]?'':'авто · '}${c.d<0?'внутри спреда':c.d===0?'на лучшей цене':c.d.toFixed(1)+' пп от '+(sd>0?'bid':'ask')} · впереди ${c.qa.toFixed(1)}M`:`<span class="${c.short==='введите цену'?'mu':'wr'}">${c.short}</span>`)});
+ const no=mine().length;document.querySelector('[data-t=o]').textContent='Мои ордера'+(no?` (${no})`:'');
+ renderNotes();lad();chart();tb({tot,totl,exit,imp,re})}
+
+function menu(){let L=10;$('#ov').style.display='flex';
+ $('#ovb').innerHTML=`<h2>⚖ Песочница двойного аукциона · EUR/USD</h2><p>Живой рынок с ботами (мейкеры, шумовые тейкеры, HFT, крупный фонд). У вас <b>бесконечный счёт</b>: покупайте и продавайте одновременно любыми объёмами и смотрите, как это двигает цену и что происходит с позицией — в плюсе она или в минусе, по mid и при реальном закрытии. Серый контур на свечах — рынок без вас.</p><p><b>Рыночный</b> ордер исполняется сразу по лучшим ценам стакана (вы тейкер). <b>Лимитный</b> ждёт в очереди (вы мейкер) и никогда не превращается в рыночный: цена, пересекающая рынок, отклоняется. Рыночная цена (mid) считается <b>без ваших заявок</b>.</p><b>Масштаб ликвидности (размер стакана)</b><div class="row" id="o1"><button data-v="1">×1 · 2-5M на уровне</button><button class="on" data-v="10">×10 · десятки M</button><button data-v="50">×50 · сотни M</button></div><div class="row"><button id="go" style="background:var(--ac);color:#fff;border:0">Начать</button></div>`;
+ $('#o1').onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$('#o1').children].forEach(x=>x.classList.remove('on'));b.classList.add('on');L=+b.dataset.v};$('#go').onclick=()=>init(L)}
+
+$('#tfs').innerHTML=[[1,'1м'],[5,'5м'],[15,'15м'],[60,'1ч'],[240,'4ч']].map(([k,l])=>`<button class="tf${k==tf?' on':''}" data-k="${k}">${l}</button>`).join('');
+const ACT={bm:()=>mkt(1),sm:()=>mkt(-1),bl:()=>lim(1),sl:()=>lim(-1),fl:flat,ca:cancelAll,zi:()=>{NB=Math.max(10,Math.round(NB*.8));ui()},zo:()=>{NB=Math.min(200,Math.round(NB*1.25));ui()},lv:()=>{OFF=0;ui()},ng:menu,rb:()=>{LP.b=false;ui()},rs:()=>{LP.s=false;ui()}};
+document.addEventListener('click',e=>{if(!S)return;const t=e.target.closest('button');if(!t||t.closest('#ov'))return;const a=t.dataset.a;
+ if(a==='pz'){paused=!paused;t.textContent=paused?'▶':'⏸';return}
+ if(a){ACT[a]();return}
+ if(t.dataset.st){const [k,d]=t.dataset.st.split(':'),id=k==='b'?'#pxb':'#pxs';$(id).value=fp((Math.round((+$(id).value||0)/T)||0)+ +d);LP[k]=true;ui();return}
+ if(t.parentElement.id==='ch'){$('#sz').value=t.dataset.v;ui();return}
+ if(t.classList.contains('tf')){tf=+t.dataset.k;OFF=0;document.querySelectorAll('.tf').forEach(b=>b.classList.toggle('on',b===t));ui();return}
+ if(t.classList.contains('sp')){speed=+t.dataset.s;document.querySelectorAll('.sp').forEach(b=>b.classList.toggle('on',b===t));return}
+ if(t.classList.contains('bt')){tab=t.dataset.t;cache['#bc']=null;document.querySelectorAll('.bt').forEach(b=>b.classList.toggle('on',b===t));ui()}});
+/* клики по динамическим элементам ловим на pointerdown: таблицы перерисовываются 10 раз/сек, обычный click терялся */
+document.addEventListener('pointerdown',e=>{if(!S)return;
+ const c=e.target.closest('[data-c]');if(c){dropOrder(c.dataset.c);note('Лимит снят','');ui();return}
+  const r=e.target.closest('.r');if(r){const k=r.classList.contains('b')?'b':'s';$(k==='b'?'#pxb':'#pxs').value=fp(+r.dataset.p);LP[k]=true;ui()}});
+document.addEventListener('input',e=>{if(!S)return;if(e.target.id==='pxb')LP.b=true;if(e.target.id==='pxs')LP.s=true;if(['sz','pxb','pxs'].includes(e.target.id))ui()});
+const cw=$('#cw');cw.addEventListener('wheel',e=>{e.preventDefault();if(!S)return;if(e.shiftKey){OFF=Math.max(0,OFF+(e.deltaY>0?-4:4))}else NB=Math.max(10,Math.min(200,Math.round(NB*(e.deltaY>0?1.15:.87))));ui()},{passive:false});
+cw.addEventListener('pointerdown',e=>{drag={x:e.clientX,o:OFF};cw.setPointerCapture&&cw.setPointerCapture(e.pointerId)});
+cw.addEventListener('pointermove',e=>{const r=cw.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;if(drag)OFF=Math.max(0,drag.o+Math.round((e.clientX-drag.x)/((cw.clientWidth-62)/NB)));if(S)ui()});
+cw.addEventListener('pointerup',()=>drag=null);cw.addEventListener('pointerleave',()=>{mx=-1;my=-1;drag=null;if(S)ui()});
+cw.addEventListener('dblclick',e=>{if(!S||!CH)return;const r=cw.getBoundingClientRect(),y=e.clientY-r.top;if(y<14||y>CH.py)return;const pr=Math.round(CH.hi-(y-14)/(CH.py-14)*(CH.hi-CH.lo)),k=pr<xq(W).mid?'b':'s';$(k==='b'?'#pxb':'#pxs').value=fp(pr);LP[k]=true;ui()});
+addEventListener('resize',()=>{if(S)ui()});
+menu();
+</script></body></html>
